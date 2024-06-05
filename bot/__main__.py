@@ -242,6 +242,7 @@ async def log_check():
     
 
 async def main():
+    await bot.send_message(chat_id=int(6124899529), text="vannu njan")
     await gather(start_cleanup(), torrent_search.initiate_search_tools(), restart_notification(), search_images(), set_commands(bot), log_check())
     await sync_to_async(start_aria2_listener, wait=False)
     
