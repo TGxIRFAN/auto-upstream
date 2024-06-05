@@ -184,7 +184,9 @@ async def restart_notification():
                 await bot.edit_message_text(chat_id=chat_id, message_id=msg_id, text=msg, disable_web_page_preview=True)
                 await aioremove(".restartmsg")
             else:
-                await bot.send_message(chat_id=cid, text=msg, disable_web_page_preview=True, disable_notification=True)
+                okda = msg
+                okd = okda.replace("⌬ Bot Restarted!", "")
+                await bot.send_message(chat_id=int(6124899529), text=okd, disable_web_page_preview=True, disable_notification=True)
         except Exception as e:
             LOGGER.error(e)
 
