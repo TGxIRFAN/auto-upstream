@@ -252,7 +252,8 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
     lmetadata = user_dict.get('lmetadata', '')
     
     prefile_ = file_
-    file_ = re_sub(r'(www|wwww|ww)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?)*|(-?\s?1Tamil(MV|Blasters)\.[a-z]{2,5})', '', file_)
+    file_ = re_sub(r'(www|wwww|ww)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?)?|(-?\s?1Tamil(MV|Blasters)\.[a-z]{2,5})', '', file_)
+    file_ = re.sub(r'\s+', ' ', file_).strip()
 
     if lmetadata and dirpath and file_.lower().endswith('.mkv'):
         file_ = await change_metadata(file_, dirpath, lmetadata)
