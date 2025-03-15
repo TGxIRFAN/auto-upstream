@@ -252,9 +252,12 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
     lmetadata = user_dict.get('lmetadata', '')
     
     prefile_ = file_
-    file_ = re_sub(r'(www|wwww|ww|w)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?)?|(-?\s?1Tamil(MV|Blasters)\.[a-z]{2,5})', '', file_)
-    file_ = re_sub(r'\s?-', '', file_, 1)
-    file_ = re_sub(r'^[\s_]+|[-\s]+$|\s+(?!.*\[[a-zA-Z0-9\s\-]+\])(\.[a-zA-Z0-9]+)', r'\1', file_)
+    file_ = re_sub(r'(www|wwww|ww|w)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?\s*)?', '', file_)
+    file_ = re_sub(r'(ww{1,3}\.|w{1,3}\.)?1Tamil(Blasters|MV)(\.[a-z]{2,5})?', '', file_)
+    file_ = re_sub(r'\s*-\s*(?=\.[a-zA-Z]{2,5}$)', '', file_)
+    file_ = re_sub(r'\s+(?=\.[a-zA-Z]{2,5}$)', '', file_)
+    file_ = re_sub(r'\s*-\s*', ' - ', file_)
+    file_ = re_sub(r'^\s?-', '', file_, 1)
 
     if lmetadata and dirpath and file_.lower().endswith('.mkv'):
         file_ = await change_metadata(file_, dirpath, lmetadata)
@@ -307,9 +310,12 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
         slit = lcaption.split("|")
         slit[0] = re_sub(r'\{([^}]+)\}', lowerVars, slit[0])
         up_path = ospath.join(dirpath, prefile_)
-        prefile_ = re_sub(r'(www|wwww|ww|w)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?)?|(-?\s?1Tamil(MV|Blasters)\.[a-z]{2,5})', '', prefile_)
-        prefile_ = re_sub(r'\s?-', '', prefile_, 1) 
-        prefile_ = re_sub(r'^[\s_]+|[-\s]+$|\s+(?!.*\[[a-zA-Z0-9\s\-]+\])(\.[a-zA-Z0-9]+)', r'\1', prefile_)
+        prefile_ = re_sub(r'(www|wwww|ww|w)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?\s*)?', '', prefile_)
+        prefile_ = re_sub(r'(ww{1,3}\.|w{1,3}\.)?1Tamil(Blasters|MV)(\.[a-z]{2,5})?', '', prefile_)
+        prefile_ = re_sub(r'\s*-\s*(?=\.[a-zA-Z]{2,5}$)', '', prefile_)
+        prefile_ = re_sub(r'\s+(?=\.[a-zA-Z]{2,5}$)', '', prefile_)
+        prefile_ = re_sub(r'\s*-\s*', ' - ', prefile_)
+        prefile_ = re_sub(r'^\s?-', '', prefile_, 1)
         dur, qual, lang, subs = await get_media_info(up_path, True)
         cap_mono = slit[0].format(
             filename=nfile_,
