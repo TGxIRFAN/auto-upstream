@@ -309,7 +309,7 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
         up_path = ospath.join(dirpath, prefile_)
         prefile_ = re_sub(r'(www|wwww|ww|w)\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\s?-?)?|(-?\s?1Tamil(MV|Blasters)\.[a-z]{2,5})', '', prefile_)
         prefile_ = re_sub(r'\s?-', '', prefile_, 1) 
-        prefile_ = re_sub(r'^[\s_]+|[-\s]+$|\s+(\.[a-zA-Z0-9]+)', r'\1', prefile_)
+        prefile_ = re_sub(r'^[\s_]+|[-\s]+$|\s+(?!.*\[[a-zA-Z0-9\s\-]+\])(\.[a-zA-Z0-9]+)', r'\1', prefile_)
         dur, qual, lang, subs = await get_media_info(up_path, True)
         cap_mono = slit[0].format(
             filename=nfile_,
