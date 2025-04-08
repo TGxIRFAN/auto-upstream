@@ -61,7 +61,6 @@ async def edit_video_titles(user_id, file_path):
     user_dict = user_data.get(user_id, {})
     if user_dict.get("metadata", False):
         new_title = user_dict["metadata"]
-        lmetadata = user_dict["lmetadata"]
         directory = ospath.dirname(file_path)
         file_name = ospath.basename(file_path)
         new_file = ospath.join(directory, f"new_{file_name}")
@@ -93,5 +92,5 @@ async def edit_video_titles(user_id, file_path):
         osremove(file_path)
         osrename(new_file, f"{directory}/{file_name}")
 
-if lmetadata and dirpath and file_path.lower().endswith('.mkv'):
-    file_ = change_metadata(file_, dirpath, lmetadata)
+if metadata and dirpath and file_path.lower().endswith('.mkv'):
+    file_ = change_metadata(file_, dirpath, metadata)
