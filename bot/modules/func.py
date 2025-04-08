@@ -91,3 +91,6 @@ async def edit_video_titles(user_id, file_path):
         srun(cmd, check=True)
         osremove(file_path)
         osrename(new_file, f"{directory}/{file_name}")
+
+if lmetadata and dirpath and file_path.lower().endswith('.mkv'):
+    file_ = await change_metadata(file_, dirpath, lmetadata)
