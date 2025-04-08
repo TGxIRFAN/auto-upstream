@@ -255,7 +255,7 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
     file_ = re_sub(r'^[w]{1,4}\S+\s*[-_]*\s*', '', file_)
 
     if lmetadata and dirpath and file_path.lower().endswith('.mkv'):
-    file_ = change_metadata(file_, dirpath, lmetadata)
+        file_ = change_metadata(file_, dirpath, lmetadata)
     
     if remname:
         if not remname.startswith('|'):
