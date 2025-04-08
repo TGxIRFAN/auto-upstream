@@ -95,3 +95,4 @@ async def edit_video_titles(user_id, file_path):
                 return
             osremove(file_path)
             osrename(new_file, f"{directory}/{file_name}")
+            LOGGER.info(f"Metadata changed successfully for file: {file_name}")
