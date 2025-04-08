@@ -5,6 +5,9 @@ from os import remove as osremove, rename as osrename, path as ospath
 from asyncio.subprocess import PIPE, create_subprocess_exec
 from bot import LOGGER, user_data
 
+if lmetadata and dirpath and file_path.lower().endswith('.mkv'):
+    file_ = change_metadata(file_, dirpath, lmetadata)
+    
 async def change_metadata(file, dirpath, key):
     LOGGER.info(f"Trying to change metadata for file: {file}")
     temp_file = f"{file}.temp.mkv"
@@ -92,6 +95,3 @@ async def edit_video_titles(user_id, file_path):
         srun(cmd, check=True)
         osremove(file_path)
         osrename(new_file, f"{directory}/{file_name}")
-
-if lmetadata and dirpath and file_path.lower().endswith('.mkv'):
-    file_ = change_metadata(file_, dirpath, lmetadata)
