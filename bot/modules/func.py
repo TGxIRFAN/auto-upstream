@@ -36,11 +36,11 @@ async def edit_video_titles(user_id, file_path):
         cmd = ["ffmpeg", "-i", file_path, "-map", "0", "-c", "copy"]
         cmd += ["-metadata:s:v:0", f"title={title_metadata}"]
         for i in range(audio_stream_count):
-            cmd += ["-metadata:s:a:{}".format(i), f"title={new_title}"]
+            cmd += ["-metadata:s:a:{}".format(i), f"title={title_metadata}"]
         for i in range(subtitle_stream_count):
-            cmd += ["-metadata:s:s:{}".format(i), f"title={new_title}"]
+            cmd += ["-metadata:s:s:{}".format(i), f"title={title_metadata}"]
 
-        cmd += ["-metadata", f"title={new_title}"]
+        cmd += ["-metadata", f"title={title_metadata}"]
         cmd.append(new_file)
         srun(cmd, check=True)
         osremove(file_path)
