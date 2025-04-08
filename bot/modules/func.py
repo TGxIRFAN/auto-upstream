@@ -2,7 +2,7 @@
 from re import findall as refindall
 from subprocess import run as srun, check_output as scheck_output
 from os import remove as osremove, rename as osrename, path as ospath
-
+from asyncio.subprocess import PIPE, create_subprocess_exec
 from bot import LOGGER, user_data
 
 async def change_metadata(file, dirpath, key):
@@ -80,13 +80,13 @@ async def edit_video_titles(user_id, file_path):
             subtitle_stream_count = 0
 
         cmd = ["ffmpeg", "-i", file_path, "-map", "0", "-c", "copy"]
-        cmd += ["-metadata:s:v:0", f"title={title_metadata}"]
+        cmd += ["-metadata:s:v:0", f"title={new_title}"]
         for i in range(audio_stream_count):
-            cmd += ["-metadata:s:a:{}".format(i), f"title={title_metadata}"]
+            cmd += ["-metadata:s:a:{}".format(i), f"title={new_title}"]
         for i in range(subtitle_stream_count):
-            cmd += ["-metadata:s:s:{}".format(i), f"title={title_metadata}"]
+            cmd += ["-metadata:s:s:{}".format(i), f"title={new_title}"]
 
-        cmd += ["-metadata", f"title={title_metadata}"]
+        cmd += ["-metadata", f"title={new_title}"]
         cmd.append(new_file)
         srun(cmd, check=True)
         osremove(file_path)
