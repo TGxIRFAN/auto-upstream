@@ -14,6 +14,9 @@ async def edit_video_titles(user_id, file_path):
         new_title = user_dict["metadata"]
         directory = ospath.dirname(file_path)
         file_name = ospath.basename(file_path)
+        file_name_cleaned = re.sub(r'www\S+', '', file_name)
+        file_name_cleaned = re.sub(r'[_\-]+', ' ', file_name_cleaned).strip()
+        title_metadata = f'{metadata} - {file_name_cleaned}'.strip()
         new_file = ospath.join(directory, f"new_{file_name}")
         LOGGER.info(f"Editing videos metadata title")
         command_probe = ["ffprobe", "-v", "error", "-show_entries", "stream=index", "-select_streams", "a", "-of", "default=noprint_wrappers=1:nokey=1", file_path]
@@ -31,13 +34,13 @@ async def edit_video_titles(user_id, file_path):
             subtitle_stream_count = 0
 
         cmd = ["ffmpeg", "-i", file_path, "-map", "0", "-c", "copy"]
-        cmd += ["-metadata:s:v:0", f"title={new_title}"]
+        cmd += ["-metadata:s:v:0", f"title={title_metadata}"]
         for i in range(audio_stream_count):
-            cmd += ["-metadata:s:a:{}".format(i), f"title={new_title}"]
+            cmd += ["-metadata:s:a:{}".format(i), f"title={title_metadata}"]
         for i in range(subtitle_stream_count):
-            cmd += ["-metadata:s:s:{}".format(i), f"title={new_title}"]
+            cmd += ["-metadata:s:s:{}".format(i), f"title={title_metadata}"]
 
-        cmd += ["-metadata", f"title={new_title}"]
+        cmd += ["-metadata", f"title={title_metadata}"]
         cmd.append(new_file)
         srun(cmd, check=True)
         osremove(file_path)
