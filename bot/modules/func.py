@@ -61,6 +61,7 @@ async def edit_video_titles(user_id, file_path):
     user_dict = user_data.get(user_id, {})
     if user_dict.get("metadata", False):
         new_title = user_dict["metadata"]
+        lmetadata = user_dict.get('lmetadata', '')
         directory = ospath.dirname(file_path)
         file_name = ospath.basename(file_path)
         new_file = ospath.join(directory, f"new_{file_name}")
