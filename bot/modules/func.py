@@ -55,7 +55,7 @@ async def change_metadata(file, dirpath, key):
     LOGGER.info(f"Metadata changed successfully for file: {file}")
     return file
     
-async def edit_video_titles(user_id, dirpath):
+async def edit_video_titles(user_id, file_path):
     if not file_path.lower().endswith(('.mp4', '.mkv')):
         return
     user_dict = user_data.get(user_id, {})
@@ -85,16 +85,9 @@ async def edit_video_titles(user_id, dirpath):
             cmd += ["-metadata:s:a:{}".format(i), f"title={new_title}"]
         for i in range(subtitle_stream_count):
             cmd += ["-metadata:s:s:{}".format(i), f"title={new_title}"]
+
         cmd += ["-metadata", f"title={new_title}"]
         cmd.append(new_file)
-        try:
-            process = await create_subprocess_exec(*cmd, stderr=PIPE)
-            await process.wait()
-            if process.returncode != 0:
-                LOGGER.error(f"Error changing metadata for file: {file_path}")
-                return
-            osremove(file_path)
-            osrename(new_file, f"{directory}/{file_name}")
-            LOGGER.info(f"Metadata changed successfully for file: {file_name}")
-        except Exception as e:
-            LOGGER.error(f"Error during subprocess execution: {e}")
+        srun(cmd, check=True)
+        osremove(file_path)
+        osrename(new_file, f"{directory}/{file_name}")
