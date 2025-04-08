@@ -96,3 +96,5 @@ async def edit_video_titles(user_id, file_path):
             osremove(file_path)
             osrename(new_file, f"{directory}/{file_name}")
             LOGGER.info(f"Metadata changed successfully for file: {file_name}")
+        except Exception as e:
+            LOGGER.error(f"Error during subprocess execution: {e}")
