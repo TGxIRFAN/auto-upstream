@@ -5,7 +5,7 @@ from os import remove as osremove, rename as osrename, path as ospath
 from asyncio.subprocess import PIPE, create_subprocess_exec
 from bot import LOGGER, user_data
 
-async def change_metadata(file, dirpath, key):
+'''async def change_metadata(file, dirpath, key):
     LOGGER.info(f"Trying to change metadata for file: {file}")
     temp_file = f"{file}.temp.mkv"
     
@@ -53,7 +53,7 @@ async def change_metadata(file, dirpath, key):
     
     os.replace(temp_file_path, full_file_path)
     LOGGER.info(f"Metadata changed successfully for file: {file}")
-    return file
+    return file'''
     
 async def edit_video_titles(user_id, file_path):
     if not file_path.lower().endswith(('.mp4', '.mkv')):
@@ -85,9 +85,13 @@ async def edit_video_titles(user_id, file_path):
             cmd += ["-metadata:s:a:{}".format(i), f"title={new_title}"]
         for i in range(subtitle_stream_count):
             cmd += ["-metadata:s:s:{}".format(i), f"title={new_title}"]
-
         cmd += ["-metadata", f"title={new_title}"]
         cmd.append(new_file)
-        srun(cmd, check=True)
-        osremove(file_path)
-        osrename(new_file, f"{directory}/{file_name}")
+        try:
+            process = await create_subprocess_exec(*cmd, stderr=PIPE)
+            await process.wait()
+            if process.returncode != 0:
+                LOGGER.error(f"Error changing metadata for file: {file_path}")
+                return
+            osremove(file_path)
+            osrename(new_file, f"{directory}/{file_name}")
