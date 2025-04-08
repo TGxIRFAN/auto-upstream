@@ -17,7 +17,7 @@ async def edit_video_titles(user_id, file_path):
         new_file = ospath.join(directory, f"new_{file_name}")
         file_name_cleaned = re.sub(r'www\S+', '', file_name)
         file_name_cleaned = re.sub(r'[_\-]+', ' ', file_name_cleaned).strip()
-        title_metadata = f'{metadata} - {file_name_cleaned}'.strip()
+        title_metadata = f'{new_title} - {file_name_cleaned}'.strip()
         LOGGER.info(f"Editing videos metadata title")
         command_probe = ["ffprobe", "-v", "error", "-show_entries", "stream=index", "-select_streams", "a", "-of", "default=noprint_wrappers=1:nokey=1", file_path]
         try:
