@@ -315,6 +315,15 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
         prefile_ = re_sub(r'\bChi\b', 'Chinese', prefile_)
         prefile_ = re_sub(r'\bKor\b', 'Korean', prefile_)
         prefile_ = re_sub(r'\bSpa\b', 'Spanish', prefile_)
+        prefile_ = re_sub(r'\bTamil\b', 'Tamil', prefile_)
+        prefile_ = re_sub(r'\bTelugu\b', 'Telugu', prefile_)
+        prefile_ = re_sub(r'\bKannada\b', 'Kannada', prefile_)
+        prefile_ = re_sub(r'\bMalayalam\b', 'Malayalam', prefile_)
+        prefile_ = re_sub(r'\bHindi\b', 'Hindi', prefile_)
+        prefile_ = re_sub(r'\bEnglish\b', 'English', prefile_)
+        prefile_ = re_sub(r'\bChinese\b', 'Chinese', prefile_)
+        prefile_ = re_sub(r'\bKorean\b', 'Korean', prefile_)
+        prefile_ = re_sub(r'\bSpanish\b', 'Spanish', prefile_)
         dur, qual, lang, subs = await get_media_info(up_path, True)
         cap_mono = slit[0].format(
             filename=nfile_,
