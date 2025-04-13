@@ -306,6 +306,15 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
         slit[0] = re_sub(r'\{([^}]+)\}', lowerVars, slit[0])
         up_path = ospath.join(dirpath, prefile_)
         prefile_ = re_sub(r'^[w]{1,4}\S+\s*[-_]*\s*', '', prefile_)
+        prefile_ = re_sub(r'\bTam\b', 'Tamil', prefile_)
+        prefile_ = re_sub(r'\bTel\b', 'Telugu', prefile_)
+        prefile_ = re_sub(r'\bKan\b', 'Kannada', prefile_)
+        prefile_ = re_sub(r'\bMal\b', 'Malayalam', prefile_)
+        prefile_ = re_sub(r'\bHin\b', 'Hindi', prefile_)
+        prefile_ = re_sub(r'\bEng\b', 'English', prefile_)
+        prefile_ = re_sub(r'\bChi\b', 'Chinese', prefile_)
+        prefile_ = re_sub(r'\bKor\b', 'Korean', prefile_)
+        prefile_ = re_sub(r'\bSpa\b', 'Spanish', prefile_)
         dur, qual, lang, subs = await get_media_info(up_path, True)
         cap_mono = slit[0].format(
             filename=nfile_,
