@@ -52,7 +52,7 @@ async def get_media_info(path, metadata=False):
     except Exception as e:
         LOGGER.error(f'Media Info: {e}. Mostly File not found!')
         return (0, "", "", "") if metadata else (0, None, None)
-    ffresult = eval(result[0])
+    ffresult = json.loads(result[0])
     fields = ffresult.get('format')
     if fields is None:
         LOGGER.error(f"Media Info Sections: {result}")
