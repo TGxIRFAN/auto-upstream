@@ -1,7 +1,7 @@
 import os, json
 from hashlib import md5
 from time import strftime, gmtime, time
-from re import sub as re_sub, search as re_search
+from re import sub as re_sub, search as re_search, I as re_I
 from shlex import split as ssplit
 from natsort import natsorted
 from os import path as ospath
@@ -306,6 +306,22 @@ async def format_filename(file_, user_id, dirpath=None, isMirror=False):
         slit[0] = re_sub(r'\{([^}]+)\}', lowerVars, slit[0])
         up_path = ospath.join(dirpath, prefile_)
         prefile_ = re_sub(r'^[w]{1,4}\S+\s*[-_]*\s*', '', prefile_)
+        prefile_ = re_sub(r'\bTam\b', 'Tamil', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bTel\b', 'Telugu', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bKan\b', 'Kannada', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bMal\b', 'Malayalam', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bHin\b', 'Hindi', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bEng\b', 'English', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bChi\b', 'Chinese', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bKor\b', 'Korean', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bSpa\b', 'Spanish', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bIta\b', 'Italian', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bJap\b', 'Japanese', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bTur\b', 'Turkish', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bDut\b', 'Dutch', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bMl\b', 'Malayalam', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bPer\b', 'Persian', prefile_, flags=re_I)
+        prefile_ = re_sub(r'\bFre\b', 'French', prefile_, flags=re_I)
         dur, qual, lang, subs = await get_media_info(up_path, True)
         cap_mono = slit[0].format(
             filename=nfile_,
