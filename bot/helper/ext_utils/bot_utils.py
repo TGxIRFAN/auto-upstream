@@ -1,38 +1,37 @@
 #!/usr/bin/env python3
 import platform
-from base64 import b64encode
-from datetime import datetime
-from os import path as ospath
-from pkg_resources import get_distribution, DistributionNotFound
-from aiofiles import open as aiopen
-from aiofiles.os import remove as aioremove, path as aiopath, mkdir
-from re import match as re_match
-from time import time
-from html import escape
-from uuid import uuid4
-from subprocess import run as srun
-from psutil import disk_usage, disk_io_counters, Process, cpu_percent, swap_memory, cpu_count, cpu_freq, getloadavg, virtual_memory, net_io_counters, boot_time
 from asyncio import create_subprocess_exec, create_subprocess_shell, run_coroutine_threadsafe, sleep
 from asyncio.subprocess import PIPE
-from functools import partial, wraps
+from base64 import b64encode
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from functools import partial, wraps
+from html import escape
+from os import path as ospath
+from re import match as re_match
+from subprocess import run as srun
+from time import time
+from uuid import uuid4
 
+from aiofiles import open as aiopen
+from aiofiles.os import path as aiopath, mkdir
 from aiohttp import ClientSession as aioClientSession
-from psutil import virtual_memory, cpu_percent, disk_usage
-from requests import get as rget
 from mega import MegaApi
+from pkg_resources import get_distribution, DistributionNotFound
+from psutil import disk_io_counters, Process, swap_memory, cpu_count, cpu_freq, getloadavg, net_io_counters, boot_time
+from psutil import virtual_memory, cpu_percent, disk_usage
 from pyrogram.enums import ChatType
 from pyrogram.types import BotCommand
-from pyrogram.errors import PeerIdInvalid
 
+from bot import OWNER_ID, bot_name, bot_cache, DATABASE_URL, LOGGER, get_client, aria2, download_dict, \
+    download_dict_lock, botStartTime, user_data, config_dict, bot_loop, extra_buttons
 from bot.helper.ext_utils.db_handler import DbManger
-from bot.helper.themes import BotTheme
-from bot.version import get_version
-from bot import OWNER_ID, bot_name, bot_cache, DATABASE_URL, LOGGER, get_client, aria2, download_dict, download_dict_lock, botStartTime, user_data, config_dict, bot_loop, extra_buttons, user
+from bot.helper.ext_utils.shortners import short_url
+from bot.helper.ext_utils.telegraph_helper import telegraph
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.button_build import ButtonMaker
-from bot.helper.ext_utils.telegraph_helper import telegraph
-from bot.helper.ext_utils.shortners import short_url
+from bot.helper.themes import BotTheme
+from bot.version import get_version
 
 THREADPOOL   = ThreadPoolExecutor(max_workers=1000)
 MAGNET_REGEX = r'magnet:\?xt=urn:(btih|btmh):[a-zA-Z0-9]*\s*'
