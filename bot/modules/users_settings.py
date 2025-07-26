@@ -173,8 +173,8 @@ async def get_user_settings(from_user, key=None, edit_type=None, edit_mode=None)
         buttons.ibutton("Leech Dump", f"userset {user_id} ldump")
         ldump = 'Not Exists' if (val:=user_dict.get('ldump', '')) == '' else len(val)
 
-        metadata = 'Not Exists' if (val := user_dict.get('metadata', '')) == '' else val
-        buttons.ibutton(f"{'✅️' if metadata != 'Not Exists' else ''} Leech Metadata", f"userset {user_id} metadata")
+        metadata = user_dict.get('metadata', config_dict['METADATA']) or 'Not Exists'
+        buttons.ibutton(f"{'✅' if metadata != 'Not Exists' else ''} Leech Metadata", f"userset {user_id} metadata")
                 
         text = BotTheme('LEECH', NAME=name, DL=f"{dailyll} / {dailytlle}",
                 LTYPE=ltype, THUMB=thumbmsg, SPLIT_SIZE=split_size,
