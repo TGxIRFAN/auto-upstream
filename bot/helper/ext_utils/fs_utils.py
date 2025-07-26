@@ -179,7 +179,7 @@ async def join_files(path):
                 if re_search(fr"{res}\.0[0-9]+$", file_):
                     await aioremove(f'{path}/{file_}')
 
-'''async def edit_metadata(
+async def edit_metadata(
     listener, base_dir: str, media_file: str, outfile: str, metadata: str = ""
 ):
     cmd = [
@@ -249,4 +249,4 @@ async def join_files(path):
             "%s. Changing metadata failed, Path %s",
             (await listener.suproc.stderr.read()).decode(),
             media_file,
-        )'''
+        )
